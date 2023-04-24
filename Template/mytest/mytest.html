@@ -1,0 +1,1448 @@
+<html><head><style>@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concerto Platform</title>
+<link rel="stylesheet" href="/bundles/concertotest/css/test.css?v=5.0.27">
+<link rel="stylesheet" href="/bundles/concertotest/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=5.0.27">
+<script type="text/javascript" src="/bundles/concertotest/angularjs/bower_components/jquery/dist/jquery.min.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/bower_components/jquery-ui/jquery-ui.min.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/bower_components/angular/angular.min.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/bower_components/angular-sanitize/angular-sanitize.min.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/bower_components/angular-cookies/angular-cookies.min.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/app/js/app.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/app/js/controllers/test_runner_controller.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/app/js/directives/concerto_test_directive.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertopanel/angularjs/app/concerto_panel/js/directives/ng-html.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/angularjs/bower_components/angular-file-upload/dist/angular-file-upload.min.js?v=5.0.27"></script>
+<script type="text/javascript" src="/bundles/concertotest/js/customevent-polyfill.js?v=5.0.27"></script>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1" class="ng-scope">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" class="ng-scope">
+<link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet" class="ng-scope"><meta name="viewport" content="width=device-width, initial-scale=1" class="ng-scope">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet" class="ng-scope">
+<link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet" class="ng-scope"></head>
+<body ng-app="testRunner" class="ng-scope">
+<script type="text/ng-template" id="finished_template.html">
+<div align='center'>Test finished.</div>
+</script>
+<script type="text/ng-template" id="test_error_template.html">
+<div align='center'>Test problem encountered. Execution halted.</div>
+</script>
+<script type="text/ng-template" id="server_error_template.html">
+<div align='center'>Server problem encountered. Execution halted.</div>
+</script>
+<script type="text/ng-template" id="client_error_template.html">
+<div align='center'>Client problem encountered. Execution halted.</div>
+</script>
+<script type="text/ng-template" id="loading_template.html">
+<div align='center'>Please wait...</div>
+</script>
+<script type="text/ng-template" id="test_container.html">
+<div id='testHtml'></div>
+</script>
+<script type="text/ng-template" id="session_limit_reached_template.html">
+<div align='center'>Sorry, this test has too many users right now. Please try again later.</div>
+</script>
+<script type="text/ng-template" id="test_not_found_template.html">
+<div align='center'>Test not found.</div>
+</script>
+<script type="text/ng-template" id="session_lost_template.html">
+<div align='center'>Session lost. Please refresh the test.</div>
+</script>
+<script type="text/ng-template" id="connection_retry_template.html">
+<div align='center'>Connection problem detected. Retrying in [[retryTimeLeft]] second(s). Please wait...</div>
+</script>
+
+<div ng-controller="testRunnerController" id="testContainer" ng-init="init(
+'',
+'',
+'qol',
+ null ,
+'\u005B\u005D',
+false,
+false,
+0,
+0,
+ null )" class="ng-scope"><div id="testHtml" concerto-options="concertoOptions" class="ng-isolate-scope"><style class="ng-scope">:root {
+--header-bg: #2FB2BF;
+--header-color: #ffffff;
+--accent-light-color: #23858F;
+--primary-color-light: #b9cbcd;
+--primary-color-dark: #9aa9ab;
+--second-color-light: #008ea3;
+--second-color-dark: #007687;
+--third-color-light: #B2BF2F;
+--third-color-dark: #858F23;
+--option-bg: #f3f3f3;
+--option-hover-bg: #efefef;
+--option-color: #000000;
+--option-unselected-bg: #ffffd5;
+--error-color: #f32828;
+--font-color-for-accent-bg: #ffffff;
+--main-font-style: 'Open Sans', sans-serif;
+--main-font-color: #000000;
+--main-font-size: 16px;
+}
+
+.body {
+min-height: 100vh;
+position: relative;
+font-size: var(--main-font-size);
+font-family: var(--main-font-style);
+color: var(--main-font-color);
+display: flex;
+flex-direction: column;
+}
+
+.questions {
+padding-bottom: 150px;
+}
+
+.container {
+max-width: 1000px;
+margin: auto;
+padding: 20px;
+}
+
+.main-btn {
+background-color: var(--second-color-light);
+border: none;
+padding: 10px 20px;
+font-size: var(--main-font-size);
+color: var(--font-color-for-accent-bg);
+display: block;
+min-width: 100px;
+cursor: pointer;
+-webkit-transform: perspective(1px) translateZ(0);
+transform: perspective(1px) translateZ(0);
+-webkit-transition-duration: 0.3s;
+transition-duration: 0.3s;
+-webkit-transition-property: background-color;
+transition-property: background-color;
+outline: none;
+}
+
+.main-btn:hover {
+background-color: var(--second-color-dark);
+}
+
+.main-btn:disabled {
+background-color: var(--option-hover-bg);
+color: #ccc;
+cursor: default;
+}
+
+.left-btn {
+margin: 0 auto 0 0;
+}
+
+.right-btn {
+margin: 0 0 0 auto;
+}
+
+/*QUESTIONS*/
+.question-text {
+font-weight: 600;
+text-align: center;
+margin: 20px auto;
+}
+
+.question-footer {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+margin-top: 20px;
+}
+
+.question-page {
+font-size: 14px;
+padding: 10px 0;
+}
+
+.form-error {
+color: var(--error-color);
+font-size: 14px;
+position: relative;
+top: -18px;
+text-align: center;
+}
+
+@media screen and (max-width: 500px) {
+.question-text {
+font-size: 14px;
+}
+
+.main-btn {
+min-width: 0;
+}
+}
+
+.instructions {
+margin: 20px 0px;
+}</style><src class="ng-scope">
+<script>testRunner.compileProvider.component('itemOpen', {
+templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemOpen/content?css=1,html=1",
+bindings: {
+item: '=',
+response: '=',
+responseRequired: '<'
+},
+controller: function controller($scope) {
+this.$onInit = function() {
+  $scope.item = this.item;
+  $scope.response = this.response;
+  $scope.responseRequired = this.responseRequired;
+}
+}
+});
+</script>
+<script>testRunner.compileProvider.component('itemOptions', {
+templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemOptions/content?css=1,html=1",
+bindings: {
+item: '=',
+response: '=',
+responseRequired: '<'
+},
+controller: function controller($scope) {
+$scope.choiceContainerStyle = {
+}
+
+this.$onInit = function() {
+  $scope.item = this.item;
+  $scope.response = this.response;
+  $scope.responseRequired = this.responseRequired;
+
+  initStyles();
+};
+
+initStyles = function() {
+  let responseOptions = $scope.item.responseOptions;
+  let columnsNum = parseInt(responseOptions.optionsColumnsNum);
+  if(!isNaN(columnsNum) && columnsNum > 0) {
+    $scope.choiceContainerStyle = {
+      "grid-template-columns": "repeat(" + columnsNum + ", 1fr)"
+    }
+  } else {
+    $scope.choiceContainerStyle = {
+      "grid-template-columns": "repeat(" + responseOptions.options.length + ", 1fr)"
+    }
+  }
+}
+
+$scope.selectResponse = function(option) {
+  $scope.response.value = option.value;
+}
+}
+});
+</script>
+<script>testRunner.compileProvider.component('itemPainMannequin', {
+templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemPainMannequin/content?css=1,html=1",
+bindings: {
+item: '=',
+response: '=',
+responseRequired: '<'
+},
+controller: function controller($scope, $timeout) {
+$scope.bodyParts = [
+  {
+    id: 1,
+    label: 'head right f'
+  },
+  {
+    id: 2,
+    label: 'head left f'
+  },
+  {
+    id: 3,
+    label: 'face right'
+  },
+  {
+    id: 4,
+    label: 'face left'
+  },
+  {
+    id: 5,
+    label: 'neck right'
+  },
+  {
+    id: 6,
+    label: 'neck left'
+  },
+  {
+    id: 7,
+    label: 'right shoulder f'
+  },
+  {
+    id: 8,
+    label: 'right chest'
+  },
+  {
+    id: 9,
+    label: 'left chest'
+  },
+  {
+    id: 10,
+    label: 'left shoulder f'
+  },
+  {
+    id: 11,
+    label: 'right arm f'
+  },
+  {
+    id: 12,
+    label: 'right elbow joint'
+  },
+  {
+    id: 13,
+    label: 'right forearm f'
+  },
+  {
+    id: 14,
+    label: 'right wrist f'
+  },
+  {
+    id: 15,
+    label: 'right hand f'
+  },
+  {
+    id: 16,
+    label: 'left arm f'
+  },
+  {
+    id: 17,
+    label: 'left elbow joint'
+  },
+  {
+    id: 18,
+    label: 'left forearm f'
+  },
+  {
+    id: 19,
+    label: 'left wrist f'
+  },
+  {
+    id: 20,
+    label: 'left hand f'
+  },
+  {
+    id: 21,
+    label: 'abdomen right'
+  },
+  {
+    id: 22,
+    label: 'abdomen left'
+  },
+  {
+    id: 23,
+    label: 'pelvis right'
+  },
+  {
+    id: 24,
+    label: 'pelvis left'
+  },
+  {
+    id: 25,
+    label: 'right hip f'
+  },
+  {
+    id: 26,
+    label: 'right groin'
+  },
+  {
+    id: 27,
+    label: 'left groin'
+  },
+  {
+    id: 28,
+    label: 'left hip f'
+  },
+  {
+    id: 29,
+    label: 'right thigh'
+  },
+  {
+    id: 30,
+    label: 'left thigh'
+  },
+  {
+    id: 31,
+    label: 'right knee'
+  },
+  {
+    id: 32,
+    label: 'left knee'
+  },
+  {
+    id: 33,
+    label: 'right shin'
+  },
+  {
+    id: 34,
+    label: 'left shin'
+  },
+  {
+    id: 35,
+    label: 'right ankle'
+  },
+  {
+    id: 36,
+    label: 'left ankle'
+  },
+  {
+    id: 37,
+    label: 'right foot'
+  },
+  {
+    id: 38,
+    label: 'left foot'
+  },
+  {
+    id: 39,
+    label: 'head left'
+  },
+  {
+    id: 40,
+    label: 'head right'
+  },
+  {
+    id: 41,
+    label: 'occiput left'
+  },
+  {
+    id: 42,
+    label: 'occiput right'
+  },
+  {
+    id: 43,
+    label: 'nape left'
+  },
+  {
+    id: 44,
+    label: 'nape right'
+  },
+  {
+    id: 45,
+    label: 'left shoulder b'
+  },
+  {
+    id: 46,
+    label: 'left back'
+  },
+  {
+    id: 47,
+    label: 'right back'
+  },
+  {
+    id: 48,
+    label: 'right shoulder b'
+  },
+  {
+    id: 49,
+    label: 'left arm b'
+  },
+  {
+    id: 50,
+    label: 'left dorsal'
+  },
+  {
+    id: 51,
+    label: 'right dorsal'
+  },
+  {
+    id: 52,
+    label: 'right arm b'
+  },
+  {
+    id: 53,
+    label: 'left elbow'
+  },
+  {
+    id: 54,
+    label: 'left forearm b'
+  },
+  {
+    id: 55,
+    label: 'left wrist b'
+  },
+  {
+    id: 56,
+    label: 'left hand b'
+  },
+  {
+    id: 57,
+    label: 'right elbow'
+  },
+  {
+    id: 58,
+    label: 'right forearm b'
+  },
+  {
+    id: 59,
+    label: 'right wrist b'
+  },
+  {
+    id: 60,
+    label: 'right hand b'
+  },
+  {
+    id: 61,
+    label: 'left lumbar'
+  },
+  {
+    id: 62,
+    label: 'right lumbar'
+  },
+  {
+    id: 63,
+    label: 'left hip b'
+  },
+  {
+    id: 64,
+    label: 'left buttock'
+  },
+  {
+    id: 65,
+    label: 'right buttock'
+  },
+  {
+    id: 66,
+    label: 'right hip b'
+  },
+  {
+    id: 67,
+    label: 'left thigh b'
+  },
+  {
+    id: 68,
+    label: 'right thigh b'
+  },
+  {
+    id: 69,
+    label: 'left knee joint'
+  },
+  {
+    id: 70,
+    label: 'right knee joint'
+  },
+  {
+    id: 71,
+    label: 'left calf'
+  },
+  {
+    id: 72,
+    label: 'right calf'
+  },
+  {
+    id: 73,
+    label: 'left ankle b'
+  },
+  {
+    id: 74,
+    label: 'right ankle b'
+  },
+  {
+    id: 75,
+    label: 'left heel'
+  },
+  {
+    id: 76,
+    label: 'right heel'
+  },
+];
+
+$scope.activeMark = null;
+
+let timeout;
+
+this.$onInit = function() {
+  $scope.item = this.item;
+  $scope.response = this.response;
+  $scope.responseRequired = this.responseRequired;
+  
+  $scope.response.isValid = function() {
+    return this.value.reportFront.length > 0 || this.value.reportBack.length > 0;
+  }
+
+  $scope.allowAreaMultiMarks = $scope.item.responseOptions.painMannequinAreaMultiMarks == 1;
+
+  if($scope.response.value) {
+    if(typeof $scope.response.value === 'string' || $scope.response.value instanceof String) {
+      $scope.response.value = JSON.parse($scope.response.value);
+    }
+  } else {
+    $scope.response.value = {
+      reportFront: [],
+      reportBack: []
+    }
+  }
+
+  $scope.gender = $scope.item.responseOptions.painMannequinGender;
+  if($scope.gender == "custom") {
+    $scope.gender = $scope.item.responseOptions.painMannequinGenderValue;
+  }
+
+  loadData();
+
+  testRunner.addExtraControl("r" + $scope.item.id, function () {
+    return JSON.stringify($scope.response.value);
+  });
+};
+
+function loadData() {
+  if ($(".i" + $scope.item.id + "-" + $scope.gender + "-svg path").length > 0) {
+    setEvents();
+    if(!$scope.allowAreaMultiMarks) {
+      for(let i=0;i<$scope.response.value.reportFront.length;i++) {
+        $scope.onIntensityChange($scope.response.value.reportFront[i]);
+      }
+      for(let i=0;i<$scope.response.value.reportBack.length;i++) {
+        $scope.onIntensityChange($scope.response.value.reportBack[i]);
+      }
+    }
+  } else {
+    timeout = $timeout(loadData, 100);
+  }
+}
+
+function setEvents() {
+  $('.i' + $scope.item.id + '-pain-mannequin path')
+    .on('click', function (e) {
+    let parent = $(e.target).parents(".pain-mannequin-svg");
+    let relX = e.pageX - parent.offset().left;
+    let relY = e.pageY - parent.offset().top;
+    let source;
+    if (parent.parent().hasClass('pain-mannequin-front')) {
+      source = 'front';
+    } else if (parent.parent().hasClass('pain-mannequin-back')) {
+      source = 'back';
+    }
+    addNote(+new Date(), relY - 8, relX - 8, e.target.id, source);
+    $(this).addClass("highlighted");
+  })
+    .hover(
+    function () {
+      $(this).addClass("hovered");
+    },
+    function () {
+      $(this).removeClass("hovered");
+    }
+  );
+}
+
+function noteExist(area, source) {
+  if(getMarkName(area, source) !== null) return true;
+  else return false;
+}
+
+function getMarkName(area, source) {
+  let arr = source === "front" ? $scope.response.value.reportFront : $scope.response.value.reportBack;
+  for(let i=0;i<arr.length;i++) {
+    if(arr[i].area === area) return source + '-' + (i+1);
+  }
+  return null;
+}
+
+function addNote(timeStamp, top, left, id, source) {
+  let area;
+  for (let i = 0; i < $scope.bodyParts.length; i++) {
+    if ("i" + $scope.item.id + "-" + $scope.bodyParts[i].id === id) {
+      area = $scope.bodyParts[i].label;
+      break;
+    }
+  }
+
+  let mark = {
+    area: area,
+    description: '',
+    id: id.replace('i' + $scope.item.id + '-', ''),
+    intensity: 50,
+    size: $scope.allowAreaMultiMarks ? 50 : null,
+    x: left,
+    y: top,
+  };
+
+  if(!$scope.allowAreaMultiMarks && noteExist(area, source)) {
+    $scope.activateMark(getMarkName(area, source));
+    $scope.$apply();
+    return;
+  }
+
+  if (source === 'front') {
+    $scope.response.value.reportFront.push(mark);
+    $scope.activeMark = 'front-' + $scope.response.value.reportFront.length;
+  } else if (source === 'back') {
+    $scope.response.value.reportBack.push(mark);
+    $scope.activeMark = 'back-' + $scope.response.value.reportBack.length;
+  }
+
+  $scope.onIntensityChange(mark);
+  $scope.$apply();
+
+  $('.mark-content').draggable({handle: '.mark-handle', containment: 'body'});
+}
+
+$scope.onIntensityChange = function(mark) {
+  if(!$scope.allowAreaMultiMarks) {
+    let elem = $("#i"+$scope.item.id+"-"+mark.id);
+    elem.css({"cssText":"fill-opacity: 1.0 !important; fill: " + $scope.getBgColor(mark.intensity)});
+  }
+}
+
+$scope.getBgColor = function (intensity) {
+  let bgColor;
+  if (intensity <= 10) {
+    bgColor = '#fcbbbc';
+  } else if (intensity <= 20) {
+    bgColor = '#ffa4a4';
+  } else if (intensity <= 30) {
+    bgColor = '#ff8e8b';
+  } else if (intensity <= 40) {
+    bgColor = '#ff746d';
+  } else if (intensity <= 50) {
+    bgColor = '#ff4843';
+  } else if (intensity <= 60) {
+    bgColor = '#fc3511';
+  } else if (intensity <= 70) {
+    bgColor = '#ff0000';
+  } else if (intensity <= 80) {
+    bgColor = '#f80000';
+  } else if (intensity <= 90) {
+    bgColor = '#e10000';
+  } else {
+    bgColor = '#d40202';
+  }
+  return bgColor;
+};
+
+$scope.activateMark = function (mark) {
+  $scope.activeMark = $scope.activeMark !== mark ? mark : null;
+};
+
+$scope.hideMark = function () {
+  $scope.activeMark = null;
+};
+
+$scope.deleteMark = function (markIndex, source) {
+  $scope.activeMark = null;
+  let id, hasSiblings;
+  if (source === 'front') {
+    id = $scope.response.value.reportFront[markIndex].id;
+    $scope.response.value.reportFront.splice(markIndex, 1);
+    for (let i = 0; i < $scope.response.value.reportFront.length; i++) {
+      if ($scope.response.value.reportFront[i].id === id) {
+        hasSiblings = true;
+        break;
+      }
+    }
+  } else if (source === 'back') {
+    id = $scope.response.value.reportBack[markIndex].id;
+    $scope.response.value.reportBack.splice(markIndex, 1);
+    for (let i = 0; i < $scope.response.value.reportBack.length; i++) {
+      if ($scope.response.value.reportBack[i].id === id) {
+        hasSiblings = true;
+        break;
+      }
+    }
+  }
+
+  if (!hasSiblings) {
+    $("#i" + $scope.item.id + '-' + id).removeClass('highlighted')
+      .css({"cssText":""});
+  }
+};
+}
+});
+</script>
+<script>testRunner.filterProvider.register('reverse', function () {
+return function (items) {
+return items.slice().reverse();
+};
+});
+
+testRunner.compileProvider.component('itemGracelyScale', {
+templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemGracelyScale/content?css=1,html=1",
+bindings: {
+item: '=',
+response: '=',
+responseRequired: '<'
+},
+controller: function controller($scope) {
+
+$scope.intensity = null;
+$scope.unpleasantness = null;
+
+this.$onInit = function() {
+  $scope.item = this.item;
+  $scope.response = this.response;
+  $scope.responseRequired = this.responseRequired;
+
+  $scope.unpleasantnessVisible = typeof($scope.item.responseOptions.gracelyScaleShow) === 'undefined' || $scope.item.responseOptions.gracelyScaleShow === 'both' || $scope.item.responseOptions.gracelyScaleShow === 'unpleasantness';
+  $scope.intensityVisible = typeof($scope.item.responseOptions.gracelyScaleShow) === 'undefined' || $scope.item.responseOptions.gracelyScaleShow === 'both' || $scope.item.responseOptions.gracelyScaleShow === 'intensity';
+
+  $scope.response.isValid = function() {
+    if($scope.unpleasantnessVisible && !$scope.unpleasantness) return false;
+    if($scope.intensityVisible && !$scope.intensity) return false;
+    return true;
+  }
+
+  if($scope.response.value) {
+    let pastResponse = JSON.parse($scope.response.value);
+    $scope.intensity = pastResponse.intensity;
+    $scope.unpleasantness = pastResponse.unpleasantness;
+  }
+
+  testRunner.addExtraControl("r" + $scope.item.id, function () {
+    return JSON.stringify({
+      intensity: $scope.intensity,
+      unpleasantness: $scope.unpleasantness
+    });
+  });
+};
+
+$scope.intensityOptions = {
+  options: [
+    {
+      value: 0,
+      bgColor: '#ddfbdf'
+    },
+    {
+      value: 1,
+      bgColor: '#fde7e7'
+    },
+    {
+      value: 2,
+      bgColor: '#ffd8d8'
+    },
+    {
+      value: 3,
+      bgColor: '#fdc5c2'
+    },
+    {
+      value: 4,
+      bgColor: '#ffb6b1'
+    },
+    {
+      value: 5,
+      bgColor: '#fba19b'
+    },
+    {
+      value: 6,
+      bgColor: '#fd9187'
+    },
+    {
+      value: 7,
+      bgColor: '#ff9083'
+    },
+    {
+      value: 8,
+      bgColor: '#fd7e6c'
+    },
+    {
+      value: 9,
+      bgColor: '#fb6e55'
+    },
+    {
+      value: 10,
+      bgColor: '#fd5e3c'
+    },
+    {
+      value: 11,
+      bgColor: '#fd4e1b'
+    },
+    {
+      value: 12,
+      bgColor: '#fb400a'
+    },
+    {
+      value: 13,
+      bgColor: '#f50707'
+    },
+    {
+      value: 14,
+      bgColor: '#ec0101'
+    },
+    {
+      value: 15,
+      bgColor: '#e20101'
+    },
+    {
+      value: 16,
+      bgColor: '#da0000'
+    },
+    {
+      value: 17,
+      bgColor: '#d00101'
+    },
+    {
+      value: 18,
+      bgColor: '#c30000'
+    },
+    {
+      value: 19,
+      bgColor: '#bd0000'
+    },
+    {
+      value: 20,
+      bgColor: '#ad0202'
+    },
+  ],
+  labels: [
+    {
+      text: 'no pain sensation',
+      bottom: '0.2%'
+    },
+    {
+      text: 'faint',
+      bottom: '5.5%'
+    },
+    {
+      text: 'very weak',
+      bottom: '19.7%'
+    },
+    {
+      text: 'weak',
+      bottom: '24.8%'
+    },
+    {
+      text: 'very mild',
+      bottom: '31.8%'
+    },
+    {
+      text: 'mild',
+      bottom: '38.2%'
+    },
+    {
+      text: 'moderate',
+      bottom: '52.5%'
+    },
+    {
+      text: 'barely strong',
+      bottom: '58.2%'
+    },
+    {
+      text: 'slightly intense',
+      bottom: '63%'
+    },
+    {
+      text: 'strong',
+      bottom: '67.6%'
+    },
+    {
+      text: 'intense',
+      bottom: '76.8%'
+    },
+    {
+      text: 'very intense',
+      bottom: '81%'
+    },
+    {
+      text: 'extremely intense',
+      bottom: '86.7%'
+    },
+  ],
+};
+
+$scope.unpleasantnessOptions = {
+  options: [
+    {
+      value: 0,
+      bgColor: '#ddfbdf'
+    },
+    {
+      value: 1,
+      bgColor: '#fde7e7'
+    },
+    {
+      value: 2,
+      bgColor: '#ffd8d8'
+    },
+    {
+      value: 3,
+      bgColor: '#fdc5c2'
+    },
+    {
+      value: 4,
+      bgColor: '#ffb6b1'
+    },
+    {
+      value: 5,
+      bgColor: '#fba19b'
+    },
+    {
+      value: 6,
+      bgColor: '#fd9187'
+    },
+    {
+      value: 7,
+      bgColor: '#ff9083'
+    },
+    {
+      value: 8,
+      bgColor: '#fd7e6c'
+    },
+    {
+      value: 9,
+      bgColor: '#fb6e55'
+    },
+    {
+      value: 10,
+      bgColor: '#fd5e3c'
+    },
+    {
+      value: 11,
+      bgColor: '#fd4e1b'
+    },
+    {
+      value: 12,
+      bgColor: '#fb400a'
+    },
+    {
+      value: 13,
+      bgColor: '#f50707'
+    },
+    {
+      value: 14,
+      bgColor: '#ec0101'
+    },
+    {
+      value: 15,
+      bgColor: '#e20101'
+    },
+    {
+      value: 16,
+      bgColor: '#da0000'
+    },
+    {
+      value: 17,
+      bgColor: '#d00101'
+    },
+    {
+      value: 18,
+      bgColor: '#c30000'
+    },
+    {
+      value: 19,
+      bgColor: '#bd0000'
+    },
+    {
+      value: 20,
+      bgColor: '#ad0202'
+    },
+  ],
+  labels: [
+    {
+      text: 'neutral',
+      bottom: '0.2%'
+    },
+    {
+      text: 'slightly unpleasant',
+      bottom: '24%'
+    },
+    {
+      text: 'slightly annoying',
+      bottom: '29%'
+    },
+    {
+      text: 'unpleasant',
+      bottom: '34.5%'
+    },
+    {
+      text: 'annoying',
+      bottom: '38.5%'
+    },
+    {
+      text: 'slightly distressing',
+      bottom: '43.5%'
+    },
+    {
+      text: 'very unpleasant',
+      bottom: '48.5%'
+    },
+    {
+      text: 'distressing',
+      bottom: '52.5%'
+    },
+    {
+      text: 'very annoying',
+      bottom: '55.5%'
+    },
+    {
+      text: 'slightly intolerable',
+      bottom: '59.8%'
+    },
+    {
+      text: 'very distressing',
+      bottom: '62.8%'
+    },
+    {
+      text: 'intolerable',
+      bottom: '75.5%'
+    },
+    {
+      text: 'very intolerable',
+      bottom: '82%'
+    },
+  ],
+};
+
+$scope.selectIntensity = function (value) {
+  $scope.intensity = value;
+};
+
+$scope.selectUnpleasantness = function (value) {
+  $scope.unpleasantness = value;
+};
+}
+});
+</script>
+</src>
+<div class="body ng-scope" ng-controller="test">
+<style>.header {
+background-color: var(--header-bg);
+color: var(--header-color);
+}
+
+.header .container {
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+}
+
+.header-logo {
+margin: -15px 0;
+width: calc(50% - 50px);
+}
+
+.header-text {
+width: calc(50% - 50px);
+}
+
+.header-logo img {
+max-height: 50px;
+max-width: 100%;
+display: block;
+margin: 0 0 0 auto;
+}
+
+.timer {
+font-size: 24px;
+margin: 0 auto;
+width: 100px;
+text-align: center;
+color: var(--header-color);
+}
+
+@media screen and (max-width: 500px) {
+.timer {
+font-size: 16px;
+margin-bottom: 0;
+width: 60px;
+text-align: right;
+}
+
+.header-text {
+width: calc(100% - 60px);
+}
+
+.header-logo {
+display: none;
+}
+}
+</style><div class="header ng-scope" ng-controller="header">
+<div class="container">
+    <div class="header-text">
+        Computer-adaptive quality of life assessment
+    </div>
+
+    <div class="timer ng-binding">
+        
+    </div>
+
+    <!-- ngIf: logo -->
+</div>
+</div>
+<script>testRunner.controllerProvider.register("header", function($scope) {
+$scope.title = testRunner.R.title;
+$scope.logo = testRunner.R.logo;
+});
+</script>
+<div class="questions">
+    <div class="container">
+        <form autocomplete="off" name="form" class="ng-pristine ng-invalid ng-invalid-required">
+            <!-- ngRepeat: item in items track by $index --><div ng-repeat="item in items track by $index" class="ng-scope">
+                <!-- ngIf: item.instructions && ($index == 0 || items[$index-1].instructions != item.instructions) -->
+
+                <div class="question-text" ng-html="item.question">To what extent do you feel that (physical) pain prevents you from doing what you need to do? </div>
+
+                <div ng-switch="item.responseOptions.type">
+                    <src>
+                        <!-- ngSwitchWhen: open -->
+                        <!-- ngSwitchWhen: options --><item-options item="item" ng-switch-when="options" response="responses['r' + item.id]" response-required="responseRequired" class="ng-scope ng-isolate-scope"><style>.question-choices {
+margin: 4px -4px 8px;
+display: grid;
+grid-auto-rows: 1fr;
+}
+
+.question-choice {
+background-color: var(--option-bg);
+text-align: center;
+padding: 8px;
+margin: 0 4px 8px;
+cursor: pointer;
+border: 3px solid var(--option-bg);
+justify-content: center;
+align-items: center;
+font-size: 14px;
+box-sizing: border-box;
+}
+
+.question-choice:hover {
+background-color: var(--option-hover-bg);
+border: 3px solid var(--option-hover-bg);
+}
+
+.question-choice.selected {
+border: 3px solid var(--accent-light-color);
+}
+
+.question-choice.unselected {
+background-color: var(--option-unselected-bg);
+color: var(--error-color);
+border: 3px solid var(--option-unselected-bg);
+}
+
+.question-choice img, .question-text img {
+max-width: 100%;
+display: block;
+}
+
+.question-choice-label {
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+@media screen and (max-width: 500px) {
+.question-choice {
+padding: 2px;
+font-size: 12px;
+}
+}
+</style><input name="r1" ng-model="response.value" ng-required="responseRequired &amp;&amp; response.skipped == 0" style="display: none;" class="ng-pristine ng-untouched ng-empty ng-invalid ng-invalid-required" required="required">
+<div class="question-choices" ng-class="responseOptionsStyle" ng-style="choiceContainerStyle" style="grid-template-columns: repeat(5, 1fr);">
+<!-- ngRepeat: (optionIndex, option) in item.responseOptions.options --><div class="question-choice ng-scope" ng-class="{'selected': option.value.toString() === response.value.toString()}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+    <div class="question-choice-label" ng-html="option.label">Not at all</div>
+</div><!-- end ngRepeat: (optionIndex, option) in item.responseOptions.options --><div class="question-choice ng-scope" ng-class="{'selected': option.value.toString() === response.value.toString()}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+    <div class="question-choice-label" ng-html="option.label">A little</div>
+</div><!-- end ngRepeat: (optionIndex, option) in item.responseOptions.options --><div class="question-choice ng-scope" ng-class="{'selected': option.value.toString() === response.value.toString()}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+    <div class="question-choice-label" ng-html="option.label">A moderate amount</div>
+</div><!-- end ngRepeat: (optionIndex, option) in item.responseOptions.options --><div class="question-choice ng-scope" ng-class="{'selected': option.value.toString() === response.value.toString()}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+    <div class="question-choice-label" ng-html="option.label">Very much</div>
+</div><!-- end ngRepeat: (optionIndex, option) in item.responseOptions.options --><div class="question-choice ng-scope" ng-class="{'selected': option.value.toString() === response.value.toString()}" ng-click="selectResponse(option)" ng-repeat="(optionIndex, option) in item.responseOptions.options">
+    <div class="question-choice-label" ng-html="option.label">An extreme amount</div>
+</div><!-- end ngRepeat: (optionIndex, option) in item.responseOptions.options -->
+</div>
+<script>testRunner.compileProvider.component('itemOptions', {
+templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemOptions/content?css=1,html=1",
+bindings: {
+item: '=',
+response: '=',
+responseRequired: '<'
+},
+controller: function controller($scope) {
+$scope.choiceContainerStyle = {
+}
+
+this.$onInit = function() {
+  $scope.item = this.item;
+  $scope.response = this.response;
+  $scope.responseRequired = this.responseRequired;
+
+  initStyles();
+};
+
+initStyles = function() {
+  let responseOptions = $scope.item.responseOptions;
+  let columnsNum = parseInt(responseOptions.optionsColumnsNum);
+  if(!isNaN(columnsNum) && columnsNum > 0) {
+    $scope.choiceContainerStyle = {
+      "grid-template-columns": "repeat(" + columnsNum + ", 1fr)"
+    }
+  } else {
+    $scope.choiceContainerStyle = {
+      "grid-template-columns": "repeat(" + responseOptions.options.length + ", 1fr)"
+    }
+  }
+}
+
+$scope.selectResponse = function(option) {
+  $scope.response.value = option.value;
+}
+}
+});
+</script></item-options><!-- end ngSwitchWhen: -->
+                        <!-- ngSwitchWhen: painMannequin -->
+                        <!-- ngSwitchWhen: gracelyScale -->
+                    </src>
+                </div>
+
+                <div ng-show="item.skippable == 1" class="ng-hide">
+                    <input id="skip1" name="skip1" ng-false-value="0" ng-model="responses['r' + item.id].skipped" ng-true-value="1" type="checkbox" class="ng-pristine ng-untouched ng-valid ng-empty">
+                    
+                    <label for="skip1">
+                        skip item 
+                    </label>
+                </div>
+
+                <div class="form-error ng-hide" ng-show="form.response.$error.required &amp;&amp; form.response.$dirty">
+                    Response required!
+                </div>
+            </div><!-- end ngRepeat: item in items track by $index -->
+
+            <div class="question-footer">
+                <button class="main-btn left-btn ng-hide" name="back" ng-show="canGoBack">
+                    Back
+                </button>
+                <div class="question-page ng-binding ng-hide" ng-show="showPageInfo &amp;&amp; page != null &amp;&amp; totalPages != null">
+                    Page&nbsp;&nbsp;/&nbsp;
+                </div>
+                <button class="main-btn right-btn" id="submitButton" name="next" ng-disabled="form.$invalid || !isFormValid()" disabled="disabled">
+                    Next
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<style>.footer {
+background-color: #efefef;
+height: 105px;
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+overflow: hidden;
+}
+
+.footer .container {
+max-width: 1000px;
+margin: auto;
+padding: 20px;
+overflow: hidden;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
+
+.footer a {
+color: var(--main-font-color);
+}
+
+.footer .logo {
+width: 100%;
+display: block;
+}
+
+.footer-left {
+width: 30%;
+max-width: 180px;
+min-width: 130px;
+}
+
+.footer-right {
+padding-left: 30px;
+margin-top: -2px;
+font-size: 14px;
+text-align: right;
+font-family: Open Sans, sans-serif;
+}
+
+.footer-right sup {
+font-size: 8px;
+}
+
+@media screen and (max-width: 768px) {
+.footer-right {
+padding-left: 15px;
+font-size: 12px;
+}
+}
+</style><div class="footer ng-scope" ng-controller="footer">
+<div class="container">
+    <div class="footer-left">
+        <img alt="logo" class="logo" src="/bundles/concertopanel/files/University_of_Cambridge_logo.svg">
+    </div>
+
+    <div class="footer-right">
+        <p>
+            All Rights Reserved.
+        </p>
+    </div>
+</div>
+</div>
+<script>testRunner.controllerProvider.register("footer", function($scope) {
+$scope.footer = testRunner.R.footer;
+});
+</script>
+</div><script class="ng-scope">testRunner.controllerProvider.register("test", function ($scope) {
+$scope.items = testRunner.R.items;
+$scope.canGoBack = testRunner.R.canGoBack == 1;
+$scope.responseRequired = testRunner.R.responseRequired == 1;
+$scope.responseRequiredAlert = testRunner.R.responeRequiredAlert;
+$scope.page = testRunner.R.page;
+$scope.totalPages = testRunner.R.totalPages;
+$scope.pastResponses = testRunner.R.responses;
+$scope.responses = {};
+$scope.nextButtonLabel = testRunner.R.nextButtonLabel;
+$scope.backButtonLabel = testRunner.R.backButtonLabel;
+$scope.showPageInfo = testRunner.R.showPageInfo == 1;
+
+$scope.isFormValid = function() {
+if(!$scope.responseRequired) {
+  return true;
+}
+for(let i=0; i<$scope.items.length; i++) {
+  let item = $scope.items[i];
+  let response = $scope.responses["r" + item.id];
+  if(response.skipped) continue;
+  if(!response.isValid()) return false;
+}
+return true;
+}
+
+if ($scope.pastResponses) {
+for (let i = 0; i < $scope.pastResponses.length; i++) {
+  let response = $scope.pastResponses[i];
+  $scope.responses["r" + response.item_id] = typeof response.response === 'object' ? response.response : {
+    value: response.response,
+    skipped: response.skipped
+  };
+}
+}
+
+for (let i = 0; i < $scope.items.length; i++) {
+let item = $scope.items[i];
+if (typeof item.responseOptions === "string") {
+  item.responseOptions = JSON.parse(item.responseOptions);
+}
+if (typeof $scope.responses["r" + item.id] === 'undefined') {
+  $scope.responses["r" + item.id] = {
+    skipped: 0
+  };
+}
+
+$scope.responses["r" + item.id].isValid = function() {
+  return typeof this.value !== 'undefined' && this.value !== null && this.value !== ""; 
+}
+
+testRunner.addExtraControl("skip"+item.id, function() {
+  return $scope.responses["r"+item.id].skipped;
+});
+}
+});</script></div></div>
+
+</body></html>

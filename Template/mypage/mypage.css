@@ -1,0 +1,303 @@
+:root {
+    --primary-color-light: #b9cbcd;
+    --primary-color-dark: #9aa9ab;
+    --second-color-light: #008ea3;
+    --second-color-dark: #007687;
+    --third-color-light: #B2BF2F;
+    --third-color-dark: #858F23;
+    --intro-bg-left-url: url(/files/images/bg-l-qol.jpg);
+    --intro-bg-right-url: url(/files/images/bg-r-qol.jpg);
+    }
+    * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    }
+    
+    .body {
+    min-height: 100vh;
+    height: 100%;
+    padding-bottom: 102px;
+    position: relative;
+    font-size: 16px;
+    font-family: 'Open Sans', sans-serif;
+    color: #3f3f3f;
+    overflow: hidden;
+    }
+    
+    .container {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    }
+    
+    .main-btn {
+    background-color: var(--second-color-light);
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    margin: 0 0 0 auto;
+    display: block;
+    outline: none;
+    min-width: 100px;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    }
+    
+    .main-btn:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    right: 100%;
+    bottom: 0;
+    background: var(--second-color-dark);
+    height: 4px;
+    -webkit-transition-property: right;
+    transition-property: right;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    }
+    
+    .main-btn:not(:disabled):hover:before, .main-btn:not(:disabled):focus:before, .main-btn:not(:disabled):active:before {
+    right: 0;
+    }
+    
+    .main-btn:disabled {
+    background-color: #efefef;
+    color: #ccc;
+    cursor: default;
+    }
+    
+    /*HEADER*/
+    .header {
+    display: flex;
+    flex-direction: row;
+    }
+    
+    .header .container-left {
+    background-color: var(--primary-color-light);
+    }
+    
+    .header .container-left, .header .container-right {
+    flex-grow: 1;
+    flex-basis: 0;
+    }
+    
+    .header .container-center {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 1000px;
+    }
+    
+    .header-text{
+    background-color: var(--primary-color-light);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    width: 80%;
+    color: #ffffff;
+    padding: 8px 30px 8px 0;
+    position: relative;
+    min-height: 50px;
+    }
+    
+    .header-text-inner {
+    padding: 0 0 0 20px;
+    font-family: 'EB Garamond', serif;
+    font-size: 26px;
+    }
+    
+    .header-text-triangle {
+    width: 50px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: -20px;
+    background-color: var(--primary-color-light);
+    transform: skewX(510deg);
+    }
+    
+    .header-logo {
+    width: 20%;
+    padding: 5px 20px 0 30px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-weight: 500;
+    font-size: 35px;
+    color: var(--primary-color-light);
+    font-family: 'EB Garamond', serif;
+    }
+    
+    @media screen and (max-width: 768px) {
+    .header-logo, .header-text-triangle {
+    display: none;
+    }
+    
+    .header-text {
+    width: 100%;
+    padding: 8px 0;
+    }
+    
+    .header .container-right {
+    background-color: var(--primary-color-light)
+    }
+    
+    .header-text-inner {
+    padding: 0 20px;
+    }
+    }
+    
+    @media screen and (max-width: 500px) {
+    .header-text-inner {
+    font-size: 20px;
+    }
+    }
+    
+    
+    /*QUESTIONS*/
+    
+    .question-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    }
+    
+    /*WARNING*/
+    .warning {
+    background-color: #0b7051;
+    padding: 10px;
+    margin: -5px auto 15px;
+    max-width: 400px;
+    }
+    
+    .warning:empty {
+    display: none;
+    }
+    
+    p {
+    margin: 10px 0 15px;
+    }
+    
+    .container-left, .container-right {
+    position: relative;
+    }
+    
+    .title {
+    padding-left: 23px;
+    position: relative;
+    margin: 50px 0 30px;
+    }
+    
+    .title:before {
+    position: absolute;
+    content: '';
+    background-color: var(--primary-color-dark);
+    width: 8px;
+    height: 100%;
+    left: 0;
+    }
+    
+    .title h1 {
+    font-family: 'EB Garamond', serif;
+    color: var(--primary-color-dark);
+    font-size: 60px;
+    letter-spacing: 1px;
+    line-height: 55px;
+    }
+    
+    @media screen and (max-width: 500px) {
+    .title h1 {
+    font-size: 30px;
+    line-height: 30px;
+    }
+    }
+    
+    .title p {
+    font-weight: 600;
+    }
+    
+    .questions > .container {
+    position: relative;
+    min-height: calc(100vh - 152px);
+    }
+    
+    .questions > .container:before {
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    height: calc(100% + 50px);
+    top: -50px;
+    left: 0;
+    transform: skewX(510deg);
+    transform-origin: top;
+    z-index: -1;
+    }
+    
+    .questions > .container:after {
+    content: '';
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    height: calc(100% + 50px);
+    top: -50px;
+    left: 0;
+    transform: skewX(510deg);
+    transform-origin: bottom;
+    z-index: -1;
+    }
+    
+    
+    .intro-bg {
+    position: absolute;
+    height: calc(100% - 100px);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    z-index: -2;
+    }
+    
+    .intro-bg-left {
+    background-image:var(--intro-bg-left-url);
+    background-size: cover;
+    background-position: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    }
+    
+    .intro-bg-center {
+    width: 100%;
+    max-width: 1000px;
+    }
+    
+    .intro-bg-right {
+    background-image: var(--intro-bg-right-url);
+    background-size: cover;
+    background-position: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    }
+    
+    @media screen and (max-width: 1000px){
+    .intro-bg {
+    display: none;
+    }
+    }
