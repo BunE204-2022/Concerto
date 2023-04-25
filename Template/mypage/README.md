@@ -28,4 +28,4 @@
 
 得到效果如下：
 
-![mypage.png](..\效果图\mypage.png)
+![mypage.png](https://github.com/BunE204-2022/concerto/blob/main/Template/%E6%95%88%E6%9E%9C%E5%9B%BE/mypage.png)
