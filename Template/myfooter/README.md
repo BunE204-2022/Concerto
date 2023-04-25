@@ -14,4 +14,4 @@
 
 得到效果如下：
 
-![myfooter.png](..\效果图\myfooter.png)
+![myfooter.png](concerto/Template/效果图/myfooter.png)
