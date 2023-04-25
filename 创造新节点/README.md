@@ -22,8 +22,12 @@
  4. 在response processer中修改[代码](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/login.R)
     
 ### 2. Wizard myassessment
-
-
+- 找到Test Wizard/Start content/assessment，并复制它（假设命名为assessment_copy）。
+- 在Test Wizard/User made中添加新的Wizard，命名为myassessment，设置如下
+  ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/7.png)
+- 在myassessment中对照assessment_copy添加所有变量与相应的内容。同时在Response Bank中添加login变量
+  ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/9.png)
+  ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/10.png)
 ### 3. node myassessment
 在Test中添加新的test，如下图设置
 ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/8.png)
