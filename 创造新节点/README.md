@@ -12,11 +12,15 @@
 
  1. login输入
     在Test input中创建新变量，命名为login
+    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/3.png)
  2. 将login设置为全局变量
     在Test flow中的第一个神经元，即输入层找到login，点击它并将其设置为Flow variable pointer
+    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/4.png)
  3. 在create settings和response processer中添加login输入(显示为蓝色，显示为红色的为输出)，并将其设置为Flow variable pointer
+    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/5.png)
+    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/6.png)
  4. 在response processer中修改代码
-
+    见login.r文件
 ### 2. Wizard myassessment
 
 
