@@ -12,6 +12,10 @@
 
  1. login输入
     在Test input中创建新变量，命名为login
+ 2. 将login设置为全局变量
+    在Test flow中的第一个神经元，即输入层找到login，点击它并将其设置为Flow variable pointer
+ 3. 在create settings和response processer中添加login输入(显示为蓝色，显示为红色的为输出)，并将其设置为Flow variable pointer
+ 4. 在response processer中修改代码
 
 ### 2. Wizard myassessment
 
