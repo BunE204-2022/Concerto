@@ -29,4 +29,4 @@
 
 在Instructions中填写如上代码，效果如下：
 
-![myform.png](..\效果图\myform.png)
+![myform.png](https://github.com/BunE204-2022/concerto/blob/main/Template/%E6%95%88%E6%9E%9C%E5%9B%BE/myform.png)
