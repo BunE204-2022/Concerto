@@ -17,8 +17,7 @@
     在Test flow中的第一个神经元，即输入层找到login，点击它并将其设置为Flow variable pointer
     ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/4.png)
  3. 在create settings和response processer中添加login输入(显示为蓝色，显示为红色的为输出)，并将其设置为Flow variable pointer
-    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/5.png)
-    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/6.png)
+    ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/5.png)![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/6.png)
  4. 在response processer中修改[代码](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/login.R)
     
 ### 2. Wizard myassessment
@@ -26,8 +25,7 @@
 - 在Test Wizard/User made中添加新的Wizard，命名为myassessment，设置如下
   ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/7.png)
 - 在myassessment中对照assessment_copy添加所有变量与相应的内容。同时在Response Bank中添加login变量
-  ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/9.png)
-  ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/10.png)
+  ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/9.png)![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/10.png)
 ### 3. node myassessment
 在Test中添加新的test，如下图设置
 ![image](https://github.com/BunE204-2022/concerto/blob/main/%E5%88%9B%E9%80%A0%E6%96%B0%E8%8A%82%E7%82%B9/images/8.png)
