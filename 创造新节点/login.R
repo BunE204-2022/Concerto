@@ -44,12 +44,12 @@ saveResponse = function(score, trait, item, skipped) {
     theta = theta,
     semColumn = responseBank$columns$sem,
     sem = sem,
+    loginColumn = responseBank$columns$login,
+    login = login,
     traitColumn = responseBank$columns$trait,
     trait = trait,
     createdTimeColumn = responseBank$columns$createdTime,
-    updateTimeColumn = responseBank$columns$updateTime,
-    loginColumn = responseBank$columns$login,
-    login = login
+    updateTimeColumn = responseBank$columns$updateTime
   )
   
   sql = NULL
@@ -71,8 +71,8 @@ UPDATE {{table}} SET
 {{timeTakenColumn}} = {{timeTaken}},
 {{thetaColumn}} = {{theta}},
 {{semColumn}} = {{sem}},
-{{traitColumn}} = IF('{{trait}}' = '', NULL, '{{trait}}'),
-{{loginColumn}} = {{login}}"
+{{loginColumn}} = {{login}},
+{{traitColumn}} = IF('{{trait}}' = '', NULL, '{{trait}}')"
     
     if(hasSkippedColumn) {
       sql = paste0(sql, ",{{skippedColumn}} = {{skipped}} ")
@@ -94,8 +94,8 @@ INSERT INTO {{table}}
 ,{{sessionIdColumn}}
 ,{{thetaColumn}}
 ,{{semColumn}}
-,{{traitColumn}}
-,{{loginColumn}}"
+,{{loginColumn}}
+,{{traitColumn}}"
 
 if(hasSkippedColumn) {
   sql = paste0(sql, ",{{skippedColumn}}")
@@ -117,8 +117,8 @@ VALUES (
 ,'{{sessionId}}'
 ,{{theta}}
 ,{{sem}}
-,IF('{{trait}}' = '', NULL, '{{trait}}'
-,{{login}})")
+,{{login}}
+,IF('{{trait}}' = '', NULL, '{{trait}}')")
 
 if(hasSkippedColumn) {
   sql = paste0(sql, ",{{skipped}}")
@@ -146,6 +146,7 @@ sql = paste0(sql, "
       response = params,
       theta = theta,
       sem = sem,
+      login = login,
       prevTheta = prevTheta,
       prevSem = prevSem,
       score = score,
@@ -154,8 +155,7 @@ sql = paste0(sql, "
       item = item,
       skipped = skipped,
       timeTaken = params$timeTaken,
-      templateResponse = templateResponse,
-      login = login
+      templateResponse = templateResponse
     ))
   }
 }
