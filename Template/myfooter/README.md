@@ -2,7 +2,7 @@
 
 ```html
 <div class="footer-left">
-    <img alt="logo" class="logo" src="files/images/University_of_BNU_logo.png" />
+    <img alt="logo" class="logo" src="/files/images/University_of_BNU_logo.svg" />
 </div>
 
 <div class="footer-right">
